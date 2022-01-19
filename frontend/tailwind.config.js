@@ -22,6 +22,10 @@ module.exports = {
       },
       height: {
         "356px": "356px"
+      },
+      minHeight: {
+        mobileBody: 'calc(100vh - 149px)',
+        desktopBody: 'calc(100vh - 169px)'
       }
     },
   },
@@ -32,6 +36,7 @@ module.exports = {
     function ({ addComponents }) {
       addComponents({
         '.container': {
+          padding: '0 2rem',
           '@screen xs': {
             maxWidth: 'auto',
             margin: '0px auto',
@@ -48,6 +53,7 @@ module.exports = {
           '@screen md': {
             maxWidth: '750px',
             margin: '0px auto',
+            padding: '0 auto',
           },
           '@screen lg': {
             maxWidth: '970px',
