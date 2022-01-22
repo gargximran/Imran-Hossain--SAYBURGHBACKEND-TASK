@@ -7,6 +7,7 @@ import UserModel from "./DB/model/userModel";
 
 // import routers
 import userRouter from "./routers/userRouters";
+import blogRouters from "./routers/blogRouters";
 
 
 // init dot env
@@ -27,6 +28,7 @@ const port: Number = parseInt(process.env.PORT || "4000");
 
 // init routers
 app.use("/api", userRouter)
+app.use('/api', blogRouters)
 
 
 connect()
