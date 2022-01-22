@@ -3,8 +3,11 @@ import { config as configDotEnv } from "dotenv";
 import { resolve } from 'path'
 import morgan from 'morgan';
 import connect from "./DB/connection";
+import UserModel from "./DB/model/userModel";
 
-import cl from './h/in'
+// import routers
+import userRouter from "./routers/userRouters";
+
 
 // init dot env
 configDotEnv({
@@ -16,13 +19,14 @@ const app: Application = express();
 // init morgan
 app.use(morgan('dev'))
 
+app.use(express.json())
+
 const port: Number = parseInt(process.env.PORT || "4000");
 
 
-app.get(
-    "/",
-    cl
-);
+
+// init routers
+app.use("/api", userRouter)
 
 
 connect()
