@@ -4,7 +4,11 @@ import { resolve } from 'path'
 import morgan from 'morgan';
 import connect from "./DB/connection";
 
-import cl from './h/in'
+// import routers
+import userRouter from "./routers/userRouters";
+import blogRouters from "./routers/blogRouters";
+import tagRouters from "./routers/tagRouters";
+
 
 // init dot env
 configDotEnv({
@@ -16,14 +20,21 @@ const app: Application = express();
 // init morgan
 app.use(morgan('dev'))
 
-const port: Number = parseInt(process.env.PORT || "4000");
+app.use(express.json())
+app.use(express.static(resolve(__dirname, '../frontend/build')));
+
+const port: Number = 5000;
 
 
-app.get(
-    "/",
-    cl
-);
 
+// init routers
+app.use("/api", userRouter)
+app.use('/api', blogRouters)
+app.use('/api', tagRouters)
+
+app.get(`*`, (req, res) => {
+    res.sendFile(resolve(__dirname, "../frontend/build/index.html"));
+});
 
 connect()
     .then(() => {
