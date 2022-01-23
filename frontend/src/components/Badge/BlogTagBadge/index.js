@@ -1,8 +1,8 @@
 import {Link} from "react-router-dom";
 
-const BlogTagBadge = () => {
+const BlogTagBadge = ({name, slug}) => {
     return (
-        <Link to={'/tag/sdlkfjds'} className="inline-block rounded text-xs px-1 text-white bg-black">tag</Link>
+        <Link to={'/tag/' + slug} className="inline-block rounded text-xs px-1 text-white bg-black">{name}</Link>
     )
 }
 

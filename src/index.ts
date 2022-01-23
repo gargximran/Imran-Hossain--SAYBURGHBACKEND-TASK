@@ -3,11 +3,11 @@ import { config as configDotEnv } from "dotenv";
 import { resolve } from 'path'
 import morgan from 'morgan';
 import connect from "./DB/connection";
-import UserModel from "./DB/model/userModel";
 
 // import routers
 import userRouter from "./routers/userRouters";
 import blogRouters from "./routers/blogRouters";
+import tagRouters from "./routers/tagRouters";
 
 
 // init dot env
@@ -29,6 +29,7 @@ const port: Number = parseInt(process.env.PORT || "4000");
 // init routers
 app.use("/api", userRouter)
 app.use('/api', blogRouters)
+app.use('/api', tagRouters)
 
 
 connect()
