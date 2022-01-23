@@ -3,7 +3,7 @@ import { Schema, Model, Document, model, ObjectId } from "mongoose";
 
 
 export interface IComment{
-    commenter: ObjectId,
+    commenter: ObjectId | string,
     comment: string,
     createdAt: Date
 }

@@ -21,8 +21,9 @@ const app: Application = express();
 app.use(morgan('dev'))
 
 app.use(express.json())
+app.use(express.static(resolve(__dirname, '../frontend/build')));
 
-const port: Number = parseInt(process.env.PORT || "4000");
+const port: Number = 5000;
 
 
 
@@ -31,6 +32,9 @@ app.use("/api", userRouter)
 app.use('/api', blogRouters)
 app.use('/api', tagRouters)
 
+app.get(`*`, (req, res) => {
+    res.sendFile(resolve(__dirname, "../frontend/build/index.html"));
+});
 
 connect()
     .then(() => {

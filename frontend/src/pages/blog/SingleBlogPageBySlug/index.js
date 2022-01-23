@@ -1,36 +1,72 @@
 import {useParams} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import BlogTagBadge from "../../../components/Badge/BlogTagBadge";
 import CommentInput from "../../../components/Forms/CommentInput";
 import CommentCard from "../../../components/cards/CommentCard";
+import getRequest from "../../../services/requests/getRequest";
 
 const SingleBlogPageBySlug = () => {
     const { slug } = useParams();
 
+    const [blog, setBlog] = useState(null);
+
     useEffect(() => {
-        console.log(slug)
+        getRequest('/api/blog/single/' + slug, false, {})
+            .then(res => {
+                setBlog(res.data.blog)
+            })
+            .then(err => console.log(err))
     }, [slug])
+
+    const commented = () => {
+        getRequest('/api/blog/single/' + slug, false, {})
+            .then(res => {
+                setBlog(res.data.blog)
+            })
+            .then(err => console.log(err))
+    }
+
+    const deleteComment = id => {
+        getRequest('/api/blog/comment/' + slug + '/' + id, true, {})
+            .then(res => {
+                getRequest('/api/blog/single/' + slug, false, {})
+                    .then(res => {
+                        setBlog(res.data.blog)
+                    })
+                    .then(err => console.log(err))
+            })
+            .catch(err => console.log(err))
+    }
 
     return (
         <div className={'py-2 my-5 px-4'}>
-            <h2 className={'text-blue-500 pb-3 block hover:underline md:text-lg font-bold'}>I am blog title and I am very big to</h2>
+            <h2 className={'text-blue-500 pb-3 block hover:underline md:text-lg font-bold'}>{blog?.title || ''}</h2>
             <div className="flex gap-1 flex-wrap">
-
-                <BlogTagBadge />
-                <BlogTagBadge />
+                {
+                    blog?.tags?.length > 0 && blog.tags.map(tag => {
+                        return <BlogTagBadge
+                            key={tag._id}
+                            name={tag.name}
+                            slug={tag.slug}
+                        />
+                    })
+                }
             </div>
 
-            <div className="my-2">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
+            <div className="my-2 whitespace-pre-line pt-10">
+
+                    {
+                        blog?.body || ''
+                    }
+
             </div>
 
             <hr className="mt-10"/>
             <h2 className="text-lg text-gray-800 mt-2">Comments</h2>
-            <CommentCard />
-            <CommentCard />
-            <CommentCard />
-
-            <CommentInput />
+            {
+                blog?.comments?.length > 0 && blog.comments.map((comment, index) => <CommentCard author={blog.author._id} index={index} key={comment.comment} data={comment} deleteComment={deleteComment} />)
+            }
+            <CommentInput slug={slug} commented={commented} />
 
 
         </div>

@@ -10,7 +10,7 @@ const BlogsByTag = () => {
     const [blogs, setBlogs] = useState([])
     const [count, setCount] = useState(0)
     useEffect(() => {
-        getData()
+        refresh()
         // eslint-disable-next-line
     }, [tag])
 

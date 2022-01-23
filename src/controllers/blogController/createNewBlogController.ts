@@ -21,7 +21,7 @@ const createNewBlogController = async (req: ExpectedRequest, res: Response) => {
         const slug = await slugGenerator(req.body.title, blogModel)
         const blog = await blogModel.create({
             title: req.body.title,
-            body: req.body.title,
+            body: req.body.body,
             author: userId,
             tags: req.body.tags,
             slug: slug
