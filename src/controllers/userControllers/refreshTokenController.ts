@@ -18,7 +18,7 @@ const refreshTokenController = (req: ExpectedRequest, res: Response) => {
         const payload: IUserPayload = {_id: user._id, fullName: user.fullName, email: user.email}
 
         const accessToken = makeAJWT(payload, (60 * 60))
-        return new ApiResponse(200, 'New Access Token Created!', {accessToken}, null).send(res)
+        return new ApiResponse(200, 'New Access Token Created!', {accessToken, user: payload}, null).send(res)
     }catch (e){
         return new ApiResponse(400, 'Something went wrong!', null, null).send(res)
     }

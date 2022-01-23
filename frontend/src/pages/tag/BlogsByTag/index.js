@@ -12,7 +12,7 @@ const BlogsByTag = () => {
     useEffect(() => {
         getData()
         // eslint-disable-next-line
-    }, [])
+    }, [tag])
 
     const refresh = () => {
         getRequest('/api/blog/get', false, {offset: 0, tag: tag})
